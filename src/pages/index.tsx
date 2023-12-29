@@ -1,39 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-const ImagePage: React.FC = () => {
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetchImageURLs = async () => {
-      try {
-        const response = await fetch('/api/products');
-        const data = await response.json();
-        const urls = data.map((product) => product.imageUrl);
-        setImageURLs(urls);
-      } catch (error) {
-        console.error('Erro ao obter URLs das imagens:', error);
-      }
-    };
-
-    fetchImageURLs();
-  }, []);
-
+const Home: React.FC = () => {
   return (
     <div>
-      <h1>Teste de Imagens</h1>
-      {imageURLs.map((url, index) => (
-        <div key={index}>
-          <Image
-            src={url}
-            alt={`Descrição da Imagem ${index}`}
-            width={500}
-            height={300}
-          />
-        </div>
-      ))}
+      <h1>Home Page</h1>
+      <Link href="/login">
+        Login
+      </Link>
     </div>
   );
 };
 
-export default ImagePage;
+export default Home;

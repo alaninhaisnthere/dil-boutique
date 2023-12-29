@@ -1,9 +1,28 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const baseURL = 'http://localhost:3006/api';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-const api = axios.create({
-    baseURL,
-});
+interface FetchJsonOptions extends AxiosRequestConfig {
+  data?: Record<string, any>;
+}
 
-export default api;
+async function fetchJson<T = any>(endpoint: string, options: FetchJsonOptions = {}): Promise<T> {
+  try {
+    const response: AxiosResponse<T> = await axios({
+      ...options,
+      url: `${apiUrl}${endpoint}`,
+      method: options.method || 'GET',
+      data: options.data,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error: ${error.response?.data || error.message}`);
+  }
+}
+
+export { apiUrl, fetchJson };
