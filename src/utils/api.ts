@@ -25,4 +25,20 @@ async function fetchJson<T = any>(endpoint: string, options: FetchJsonOptions = 
   }
 }
 
-export { apiUrl, fetchJson };
+async function fetchImage(category: string): Promise<string> {
+  try {
+    const response = await axios.get(`${apiUrl}/products/category/${category}`, {
+      responseType: 'arraybuffer',
+    });
+
+    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+    const imageUrl = `data:image/png;base64,${base64Image}`;
+
+    return imageUrl;
+  } catch (error) {
+    console.error('Error fetching image:', error);
+    throw new Error('Error fetching image');
+  }
+}
+
+export { apiUrl, fetchJson, fetchImage };
