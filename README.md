@@ -1,2 +1,2 @@
 # dil-boutique
-Mock e-commerce using REST API with Node and AWS for product management
+Mock e-commerce using REST API with Node and Express for product management
